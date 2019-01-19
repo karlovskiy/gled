@@ -74,7 +74,7 @@ func setSolid() {
 func setCycle() {
 	rate := parseRate(flag.Arg(1))
 	brightness := parseBrightness(flag.Arg(2))
-	sendCommand("3b0001" + "0000000000" + rate + brightness)
+	sendCommand("3b0002" + "0000000000" + rate + brightness)
 }
 
 func setBreathe() {
@@ -103,6 +103,8 @@ func sendCommand(data string) {
 		log.Fatalf("Error open device: %v", err)
 	}
 	defer dev.Close()
+	// reset device is very important before send new control command in sequence command executions
+	defer dev.Reset()
 
 	if err := dev.SetAutoDetach(true); err != nil {
 		log.Fatalf("Error set auto detach kernel for device: %v", err)
