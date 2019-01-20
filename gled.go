@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"flag"
 	"fmt"
-	"github.com/google/gousb"
+	"github.com/jpoirier/gousb/usb"
 	"image/color"
 	"log"
 	"strconv"
@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	vendorId          = gousb.ID(0x046d) // Logitech, Inc.
-	productId         = gousb.ID(0xc084) // G102 and G203 Prodigy Gaming Mouse
+	vendorId          = 0x046d // Logitech, Inc.
+	productId         = 0xc084 // G102 and G203 Prodigy Gaming Mouse
 	format            = "11ff0e%s000000000000"
 	defaultRate       = 10000
 	defaultBrightness = 100
@@ -92,32 +92,15 @@ func sendCommand(data string) {
 		log.Fatalf("Error converting data from hex string: %v", err)
 	}
 
-	// Only one context should be needed for an application.  It should always be closed.
-	ctx := gousb.NewContext()
+	ctx := usb.NewContext()
 	defer ctx.Close()
-	// Debugging can be turned on; this shows some of the inner workings of the libusb package.
 	ctx.Debug(*debug)
 
-	dev, err := ctx.OpenDeviceWithVIDPID(vendorId, productId)
+	dev, err := ctx.OpenDeviceWithVidPid(vendorId, productId)
 	if err != nil {
 		log.Fatalf("Error open device: %v", err)
 	}
 	defer dev.Close()
-	// reset device is very important before send new control command in sequence command executions
-	defer dev.Reset()
-
-	if err := dev.SetAutoDetach(true); err != nil {
-		log.Fatalf("Error set auto detach kernel for device: %v", err)
-	}
-
-	// Claim the default interface using a convenience function.
-	// The default interface is always #0 alt #0 in the currently active
-	// config.
-	_, done, err := dev.DefaultInterface()
-	if err != nil {
-		log.Fatalf("Error claim default interface: %v", err)
-	}
-	defer done()
 
 	n, err := dev.Control(0x21, 0x09, 0x0211, 0x01, payload)
 	if err != nil {

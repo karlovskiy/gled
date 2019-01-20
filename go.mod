@@ -1,3 +1,3 @@
 module gled
 
-require github.com/google/gousb v0.0.0-20181222214327-04360a545728
+require github.com/jpoirier/gousb v0.0.0-20160821211425-38255c2cef15
