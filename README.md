@@ -1,6 +1,18 @@
 Logitech G102 and G203 Prodigy Mouse LED control
 ================================================
 
+Installation
+=====
+
+Archlinux
+---------
+You can install gled from the [Arch User Repository (AUR)](https://aur.archlinux.org/packages/gled-git/)
+
+Source
+------
+```bash
+$ go build -o gled . 
+```
 
 Usage
 =====
