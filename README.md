@@ -19,19 +19,27 @@ Usage
 
 Solid color mode
 ----------------
-`gled solid <color>`
+```bash
+gled solid <color>
+```
                        
 Cycle through all colors  
 ------------------------                     
-`gled cycle <rate> <brightness>`
+```bash
+gled cycle <rate> <brightness>
+```
 
 Single color breathing
 ----------------------
-`gled breathe <color> <rate> <brightness>`
+```bash
+gled breathe <color> <rate> <brightness>
+```
 
 Enable/disable startup effect
 -----------------------------
-`gled intro <toggle>`
+```bash
+gled intro <toggle>
+```
 
 
 Arguments
@@ -47,4 +55,6 @@ Flags
 
 Debug level for libusb. Default: 0
 ----------------------------------
-`gled -debug <0..3> ...   `                  
+```bash
+gled -debug <0..3> ...   
+```
